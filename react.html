@@ -43,7 +43,6 @@
 		});
 		var SortContainer = React.createClass({
 			getInitialState:function(){
-				this.AAAA = "AAA";
 				this.orginPosition = [];
 				this.orginIndex = [];
 				return {
@@ -51,25 +50,6 @@
 				}
 			},
 			static:{
-				/**
-				 * [getOriginPosition 获取原始的数据]
-				 */
-				getOriginPosition:function(self,items){
-					var self = self;
-					var items =  items;
-					for (var i = 0; i < items.length; i++) {
-						var position = {};
-						position.top = items[i].offsetTop;
-						position.left = items[i].offsetLeft;
-						position.height = items[i].offsetHeight;
-						position.width = items[i].offsetWidth;
-						//存储原始位置数据
-						self.orginPosition.push(position);
-						//存储原始索引数据
-						self.orginIndex.push(items[i].dataset.value);
-					};
-					//console.log(self.orginPosition);
-				},
 				/**
 				 * [moveToTarget 移动元素]
 				 */
@@ -127,8 +107,8 @@
 						//洗牌算法，Fisher-Yates乱序算法
 						newIndex.sort(function(){return Math.random()-0.5});
 						break;
-					case "reset":break;
-					default:break;
+					case "reset": break;
+					default: break;
 				}
 				//设置排序过后的位置数据
 				var movePosition = [];
@@ -146,20 +126,44 @@
 				//变更状态，引发重绘
 				this.setState({movePosition:movePosition});
 			},
-			componentWillMount:function(){
-				//console.log("render渲染前执行一次");
-			},
 			componentDidMount:function(){
-				//console.log("render渲染后执行一次");
 				var items = this.getDOMNode().children[1].children;
-				
 				//初始化并且获取原始数据
-				this.static.getOriginPosition(this,items);			
+				for (var i = 0; i < items.length; i++) {
+					var el = {};
+					el.top = items[i].offsetTop;
+					el.left = items[i].offsetLeft;
+					//存储原始位置数据
+					this.orginPosition.push(el);
+					//存储原始索引数据
+					this.orginIndex.push(items[i].dataset.value);
+				};
+				//复制一个新的索引，防止改变原始索引
+				var newIndex = new Array();
+				for (var i = 0; i < this.orginIndex.length; i++) {
+					newIndex[i] = (this.orginIndex[i]);
+				};	
+				newIndex.sort(function(){return Math.random()-0.5});
+				//设置排序过后的位置数据
+				var movePosition = [];
+				for (var i = 0; i < newIndex.length; i++) {
+					var fromTo = {};
+					for(var j = 0;j < this.orginIndex.length;j++){
+						if(this.orginIndex[i] == newIndex[j]){
+							fromTo.item = this.orginIndex[i]; 
+							fromTo.from = i;
+							fromTo.to = j;
+							movePosition.push(fromTo);
+						}
+					}
+				};
+				this.setState({movePosition:movePosition});
 			},
 			shouldComponentUpdate:function(){
-				//console.log("当数据变化时重绘，和此功能关系,我们这里无需重绘，返回false即可");
 				var items = this.getDOMNode().children[1].children;
 				this.static.moveToTarget(this,items);
+			
+				//console.log("当数据变化时重绘，和此功能关系,我们这里无需重绘，返回false即可");
 				return false;
 			},
 			render:function(){
