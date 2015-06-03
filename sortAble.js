@@ -87,18 +87,9 @@ sortAble.prototype = {
 		var movePosition = this.movePosition;
 		movePosition.forEach(function (item,i,array) {
 			for (var j = 0; j < items.length; j++) {
-				if (item.from < item.to) {
-					//向右运动
-					if (items[j].dataset.value == item.item) {
-						items[j].style.top = orginPosition[item.to].top - orginPosition[item.from].top + "px";
-						items[j].style.left = orginPosition[item.to].left - orginPosition[item.from].left + "px";
-					}
-				} else {
-					//向左运动
-					if (items[j].dataset.value == item.item) {
-						items[j].style.top = orginPosition[item.to].top - orginPosition[item.from].top + "px";
-						items[j].style.left = orginPosition[item.to].left - orginPosition[item.from].left + "px";
-					}
+				if (items[j].dataset.value == item.item) {
+					items[j].style.top = orginPosition[item.to].top - orginPosition[item.from].top + "px";
+					items[j].style.left = orginPosition[item.to].left - orginPosition[item.from].left + "px";
 				}
 			}
 		});
