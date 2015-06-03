@@ -85,23 +85,22 @@ sortAble.prototype = {
 		var items = this.items;
 		var orginPosition = this.orginPosition;
 		var movePosition = this.movePosition;
-		for (var i = 0; i < movePosition.length; i++) {
-			//console.log("值为：" + movePosition[i].item, "，原位置：" + movePosition[i].from, "，目标位置：" + movePosition[i].to);
+		movePosition.forEach(function (item,i,array) {
 			for (var j = 0; j < items.length; j++) {
-				if (movePosition[i].from < movePosition[i].to) {
+				if (item.from < item.to) {
 					//向右运动
-					if (items[j].dataset.value == movePosition[i].item) {
-						items[j].style.top = orginPosition[movePosition[i].to].top - orginPosition[movePosition[i].from].top + "px";
-						items[j].style.left = orginPosition[movePosition[i].to].left - orginPosition[movePosition[i].from].left + "px";
+					if (items[j].dataset.value == item.item) {
+						items[j].style.top = orginPosition[item.to].top - orginPosition[item.from].top + "px";
+						items[j].style.left = orginPosition[item.to].left - orginPosition[item.from].left + "px";
 					}
 				} else {
 					//向左运动
-					if (items[j].dataset.value == movePosition[i].item) {
-						items[j].style.top = orginPosition[movePosition[i].to].top - orginPosition[movePosition[i].from].top + "px";
-						items[j].style.left = orginPosition[movePosition[i].to].left - orginPosition[movePosition[i].from].left + "px";
+					if (items[j].dataset.value == item.item) {
+						items[j].style.top = orginPosition[item.to].top - orginPosition[item.from].top + "px";
+						items[j].style.left = orginPosition[item.to].left - orginPosition[item.from].left + "px";
 					}
 				}
 			}
-		};
+		});
 	}
 }
