@@ -1,13 +1,13 @@
 /*
  *
  */
-function sortAble(obj) {
+function sortElementS(obj) {
 	this.container = obj.container;
 	this.itemClass = obj.itemClass;
 	this.controlEl = obj.control;
 	this.init();
 }
-sortAble.prototype = {
+sortElementS.prototype = {
 	init: function () {
 		//初始化
 		this.parent = document.querySelector(this.container);
